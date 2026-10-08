@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 应用开发岗位 · 学习清单思维导图</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#fff; --ink:#1f2328; --ink2:#57606a; --line:#d8dee4;
+  --s1:#2563eb; --s1bg:#eff5ff; --s1line:#bcd6fb;
+  --s2:#1a7f4b; --s2bg:#eefaf3; --s2line:#b3e0c8;
+  --s3:#a8470b; --s3bg:#fff6ec; --s3line:#f0c99e;
+  --must:#c0392b; --must-bg:#fdeeec; --must-line:#e6a49c;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.75;
+  font-family:-apple-system,"Segoe UI","Microsoft YaHei",Roboto,"PingFang SC",sans-serif}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:14px 22px}
+h1{margin:0 0 10px;font-size:19px}
+h1 small{font-weight:400;color:var(--ink2);font-size:12px;margin-left:10px}
+.bar{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 12px;cursor:pointer;font-size:13px}
+button:hover{background:var(--s1bg);border-color:#a9c7f5}
+input{border:1px solid var(--line);border-radius:7px;padding:7px 11px;width:260px;font-size:13px}
+input:focus{outline:none;border-color:var(--s1)}
+.legend{margin-top:9px;font-size:12px;color:var(--ink2);display:flex;gap:14px;flex-wrap:wrap}
+.tag{display:inline-block;border-radius:5px;padding:1px 7px;font-size:11px;font-weight:700;margin-right:5px}
+.t-must{background:var(--must-bg);color:var(--must);border:1px solid var(--must-line)}
+.t-star{background:#fff8e1;color:#b8860b;border:1px solid #e0b64a}
+.stg{font-size:11px;font-weight:700;border-radius:5px;padding:1px 7px;margin-right:6px}
+.st1{background:var(--s1bg);color:var(--s1);border:1px solid var(--s1line)}
+.st2{background:var(--s2bg);color:var(--s2);border:1px solid var(--s2line)}
+.st3{background:var(--s3bg);color:var(--s3);border:1px solid var(--s3line)}
+.wrap{padding:26px 18px 80px}
+ul.tree,ul.tree ul{list-style:none;margin:0;padding:0}
+ul.tree ul{margin-left:22px;padding-left:20px;border-left:1px dashed #c9d1d9}
+li.node{position:relative;margin-bottom:12px}
+li.node>ul{margin-top:10px}
+li.node::before{content:"";position:absolute;left:-20px;top:20px;width:18px;height:1px;background:#c9d1d9}
+.tw{display:inline-flex;align-items:flex-start;gap:6px}
+.tg{flex:0 0 auto;width:17px;height:17px;margin-top:5px;border:1px solid #b9c1c9;background:#fff;border-radius:4px;
+  line-height:14px;text-align:center;font-size:11px;color:var(--ink2);cursor:pointer;user-select:none}
+.tg:hover{background:var(--s1);color:#fff;border-color:var(--s1)}
+li.leaf>.tw>.tg{visibility:hidden}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 14px;max-width:960px}
+.st1c>.tw>.card{background:var(--s1bg);border-color:var(--s1line)}
+.st2c>.tw>.card{background:var(--s2bg);border-color:var(--s2line)}
+.st3c>.tw>.card{background:var(--s3bg);border-color:var(--s3line)}
+.card .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.meta{font-size:12px;color:var(--ink2);margin-bottom:6px}
+.card ul.a{margin:5px 0 0;padding-left:18px}
+.card ul.a li{margin:3px 0;color:var(--ink2)}
+.card ul.a li b{color:var(--ink)}
+.out{margin-top:8px;background:#fbfcfd;border:1px dashed var(--line);border-radius:8px;padding:8px 11px;font-size:13px}
+.out::before{content:"产出物 ✓ ";font-weight:700;color:var(--s2);font-size:11px}
+.hl{background:#fff2a8;padding:0 3px;border-radius:3px}
+.hide{display:none!important}
+.empty{padding:60px;text-align:center;color:var(--ink2);font-size:16px}
+@media print{.bar,input{display:none}.tg{visibility:hidden}}
+</style>
+</head>
+<body>
+<header>
+  <h1>AI 应用开发岗位 · 学习清单<small>按阶段推进｜红标= 必须掌握｜黄标 = 重点｜每个节点都写明「学什么 + 产出什么」</small></h1>
+  <div class="bar">
+    <input id="q" placeholder="搜索知识点，如 RAG、LoRA、MCP、评估">
+    <button id="f-must">只看必学</button>
+    <button id="f-star">只看重点</button>
+    <button id="toggle">全部展开</button>
+    <button id="fold">全部折叠</button>
+    <button onclick="window.print()">打印</button>
+  </div>
+  <div class="legend">
+    <span><span class="stg st1">阶段1</span>基础与直连LLM</span>
+    <span><span class="stg st2">阶段2</span>核心工程能力</span>
+    <span><span class="stg st3">阶段3</span>高阶与差异化</span>
+    <span><span class="tag t-must">必学</span>面试与工作双重刚需</span>
+    <span><span class="tag t-star">重点</span>高频考查、拉开差距</span>
+  </div>
+</header>
+<div class="wrap"><ul class="tree" id="tree"></ul><div class="empty hide" id="empty">没有匹配的知识点</div></div>
+<script>
+const D=[
+{t:'阶段一· 基础与直连 LLM（目标：能独立做出一个可用的对话应用）',s:1,k:'must',c:[
+ {t:'1. 大模型原理（不必推公式，但要能讲清机制）',k:'must',c:[
+  {t:'必学：Transformer 与注意力机制',a:['学：Encoder/Decoder 结构、Self-Attention、QKV、多头、位置编码、掩码、LayerNorm。','理解到能回答"为什么不用 RNN""多头到底多在哪"。'],o:'能口述 Attention 公式与多头的作用'},
+  {t:'必学：LLM 训练四阶段：Pretrain / SFT / RLHF / DPO',a:['学：各阶段目的、数据形态、解决什么问题、彼此关系。','重点理解<span class="hl">为什么需要对齐阶段</span>。'],o:'画一张链路图并讲明白每阶段输入输出'},
+  {t:'重点：解码与采样参数',a:['学：temperature、top_k、top_p、max_tokens、stop、seed、logprobs、stream。','实践：同一个 prompt 调温度做对比实验，感受差异。'],o:'实验报告 + 一张参数影响对照表'},
+  {t:'重点：幻觉成因与抑制',a:['学：为什么必然产生幻觉（生成目标≠ 正确性目标）、什么时候最容易编（知识缺口、越界提问、长上下文尾部）。'],o:'整理 5 条抑制手段清单'},
+  {t:'基础：token、上下文窗口、计费与token 估算',a:['学：tokenizer、字符与 token 换算、输入输出分别计费、上下文窗口限制。'],o:'能估算一次会话的成本'},
+  {t:'选学：推理模型（o1/R1 类）与多模态',a:['了解思维链推理带来的延迟/成本代价；了解图文模型的基本输入输出形态。'],o:'一句话说明何时该用推理模型'}
+ ]},
+ {t:'2. Python 与 AI 生态（工程基本功）',k:'must',c:[
+  {t:'必学：Python 异步与并发',a:['asyncio、await、异步 HTTP（httpx/aiohttp）、并发调用LLM、asyncio.gather、超时与取消。'],o:'写一个并发生成脚本'},
+  {t:'必学：类型标注、Pydantic 结构化输出校验',a:['用 Pydantic 定义输入输出模型，自动解析与校验模型返回；FastAPI 暴露接口。'],o:'一个带结构化输出的 FastAPI 服务'},
+  {t:'重点：主流 SDK',a:['OpenAI 官方 SDK（含流式、结构化输出、tool calling）、Anthropic SDK、国内主流模型 SDK；兼容层要点。'],o:'封装统一 LLM Client 类'},
+  {t:'基础：NumPy / Pandas 数据处理',a:['评测数据统计、日志分析、批量结果对比。'],o:'批量跑分脚本'},
+  {t:'基础：环境与部署',a:['虚拟环境、依赖管理、Docker 基础、.env 配置管理密钥。'],o:'项目能Docker 启动'}
+ ]},
+ {t:'3. 直连模型应用（第一个完整作品）',k:'must',c:[
+  {t:'必学：Prompt 工程可落地',a:['角色/任务/上下文/约束/示例/输出格式六要素；few-shot、思维链、负转正技巧。'],o:'同一任务 3 版prompt 对比'},
+  {t:'必学：流式输出（SSE）',a:['后端 SSE 推送、前端EventSource/ fetch 流解析、取消与断连处理、错误走流内事件。'],o:'一个能逐字输出的网页'},
+  {t:'必学：会话管理与多轮',a:['消息历史结构、system/user/assistant 回填、上下文超长时的摘要压缩。'],o:'带多轮与压缩的会话服务'},
+  {t:'必学：结构化输出与容错',a:['JSON Schema 约束输出、解析失败重试、代码层字段校验与兜底。'],o:'信息抽取 Demo（PDF→结构化 JSON）'},
+  {t:'重点：Tool Calling 直连实现',a:['手写工具注册与调度循环（不依赖框架），实现 2-3 个工具；理解模型只出意图、代码做执行。'],o:'能跑的天气查询/文件读写 Agent'},
+  {t:'必学：基础评测习惯',a:['先写 20-30 条测试用例再迭代功能；记录 prompt 与结果。'],o:'第一份测试用例集'}
+ ]}
+]},
+{t:'阶段二 · 核心工程能力（目标：企业级 RAG 与 Agent 系统）',s:2,k:'must',c:[
+ {t:'4. RAG 检索增强生成（岗位第一核心考点）',k:'must',c:[
+  {t:'必学：文档解析与切分（Chunking）',a:['学：PDF/Word/Markdown/HTML 解析要点，表格与扫描件处理；递归切分、按结构切分、父子块、overlap。','<span class="hl">切分质量直接决定 RAG 上限</span>。'],o:'同一文档 3 种切分方案的效果对比'},
+  {t:'必学：Embedding 与向量检索',a:['学：向量原理、模型选型（中文优先 bge/m3e 等）、维度与归一化、余弦 vs 内积、query 与 doc 必须同模型。'],o:'用向量库把文档检索出来'},
+  {t:'必学：向量数据库',a:['学：pgvector（起步）、Milvus / Qdrant（进阶）；建集合/索引、topK、metadata 过滤、增删改 upsert。'],o:'一个带 metadata 过滤的检索服务'},
+  {t:'重点：混合检索 + Rerank',a:['学：BM25 关键词检索的短板与优势；RRF / 加权融合；Cross-Encoder 重排原理；为什么召回用双塔、排序用交叉编码。'],o:'召回 30 → rerank 5 的完整链路'},
+  {t:'重点：Query 改写 / Multi-Query / HyDE',a:['学：口语问题→检索式表达；多角度改写；HyDE 先生成假答案当检索探针的技巧。'],o:'让"含糊提问"命中率提升的可量化实验'},
+  {t:'必学：RAG 评估（Ragas 思想）',a:['学：忠实度 Faithfulness、答案相关性、Recall@K / Precision@K；建FAQ 黄金集；LLM-as-a-Judge 与其偏差。'],o:'一份 RAG 评测报告（分召回层与生成层）'},
+  {t:'重点：RAG 常见故障与排查顺序',a:['先查召回（Recall@K）→不行改切分/混合检索/embedding →再改提示词与引用约束 →最后换模型。'],o:'一张故障排查决策树'},
+  {t:'选学：框架加速',a:['LangChain / LlamaIndex 基本用法；开箱方案 RAGFlow / FastGPT / Dify 的适用场景。'],o:'用框架重写一遍自己的实现做对比'}
+ ]},
+ {t:'5. Agent 与工具生态',k:'must',c:[
+  {t:'必学：Agent 范式',a:['ReAct（思考-行动-观察）、Plan-and-Execute、Reflection/Critic、多智能体分工。'],o:'手写ReAct 循环 + 一个带计划确认的 Workflow'},
+  {t:'必学：MCP（Model Context Protocol）',a:['学：Host/Client/Server 架构，tools / resources / prompts 三类能力，stdio 与 SSE/HTTP 传输；<span class="hl">写一个自己的 MCP Server</span>。'],o:'可被任意客户端接入的 MCP Server'},
+  {t:'重点：LangGraph / 状态机式编排',a:['学：用图表达状态与条件边、checkpoint 与人工介入（human-in-the-loop）、失败重试。'],o:'带人工审批节点的工作流'},
+  {t:'重点：记忆系统',a:['短期（会话历史/摘要）、长期（向量库存偏好与结论）、写入时机、去重与过期淘汰。'],o:'具备长期记忆的对话 Demo'},
+  {t:'必学：Agent 稳定性工程',a:['最大步数、循环检测、超时、工具参数校验、错误回喂重试、<span class="hl">不可逆操作二次确认/沙箱</span>、成本上限。'],o:'一套 Agent 安全与稳定性 checklist'},
+  {t:'重点：Workflow vs Agent 的选型',a:['能用确定性流程就不要用 Agent；只有步骤无法枚举才用 Agent。'],o:'一篇文章或一次内部分享'},
+  {t:'选学：多智能体协作模式',a:['Planner-Executor-Critic、并行专家、辩论式；成本与延迟代价。'],o:'一个多智能体小实验'}
+ ]},
+ {t:'6. 模型能力扩展（微调与推理部署）',k:'focus',c:[
+  {t:'重点：微调决策树',a:['先 Prompt → 再 RAG → 最后微调；微调改变"怎么说"，RAG 改变"知道什么"。'],o:'一张决策流程图'},
+  {t:'必学：LoRA / QLoRA',a:['低秩分解原理、冻结主干只训适配器、r 与 alpha 影响、4bit 量化省显存、切换任务只换适配器。'],o:'用开源小模型跑通一次 LoRA 微调'},
+  {t:'重点：微调数据集构造',a:['真实流量脱敏 / 专家标注 / 强模型蒸馏；<span class="hl">质量 > 数量</span>；chat template 对齐；混入通用数据防遗忘；训练/测试集去污染。'],o:'100-300 条高质量微调数据集'},
+  {t:'选学：DPO 偏好对齐',a:['chosen/rejected 数据格式、与 RLHF 的差异、工程简化点。'],o:'一次小规模 DPO 实验'},
+  {t:'选学：量化与推理框架',a:['INT8/INT4、AWQ/GPTQ；vLLM 的 PagedAttention 与连续批处理、TTFT/TPOT/吞吐指标；Ollama 本地部署。'],o:'本地起一个开源模型并压测 QPS'},
+  {t:'选学：模型压缩与蒸馏',a:['知识蒸馏把小模型能力迁移、剪枝、量化配合使用。'],o:'小模型替代大模型的可行性验证报告'}
+ ]},
+ {t:'7. 工程化与系统设计（面试高分项）',k:'must',c:[
+  {t:'必学：调用可靠性',a:['超时（流式用空闲超时）、指数退避重试、熔断降级、限流配额、幂等去重、并发控制。'],o:'给调用链路加齐保护机制'},
+  {t:'必学：成本优化',a:['模型分级路由、语义缓存、前缀缓存（KV 复用）、上下文压缩、输出长度与步数限制、异步批处理。'],o:'一次真实的成本下降实验记录'},
+  {t:'必学：可观测性与评测体系',a:['全链路 trace（检索→rerank→模型→工具）、关键指标（TTFT、成功率、Recall@K、成本）、prompt 版本管理、负反馈回流。'],o:'可视化排查面板或结构化日志'},
+  {t:'重点：安全与合规',a:['Prompt 注入与越狱、间接注入（文档藏指令）、输入输出过滤、PII 脱敏、数据不出域、权限过滤必须在检索层。'],o:'威胁清单 + 防护方案文档'},
+  {t:'重点：Java 生态迁移（你的差异化优势）',a:['Spring Boot + WebFlux 响应式流式、Spring AI / LangChain4j 的模型与工具抽象、<span class="hl">策略模式 + 配置化多模型路由</span>、Resilience4j 熔断限流、统一 DTO 与埋点。'],o:'Java 版 AI 网关或 Agent 服务骨架'}
+ ]},
+ {t:'8. 评测与质量度量',k:'focus',c:[
+  {t:'重点：评测集建设（最值钱的资产）',a:['从真实场景采样 100-300 条，人工标注要点与评分标准，覆盖典型 + 边界 + 已知失败 case。'],o:'一个可复用的黄金问答集'},
+  {t:'重点：自动评测指标',a:['分类抽取用准确率/F1；生成用 Ragas 四指标 + LLM-as-a-Judge；注意位置偏见、长度偏见、模型自恋。'],o:'自动化评测脚本 + 趋势面板'},
+  {t:'重点：A/B 与灰度',a:['离线跑分 → 影子测试 → 小流量灰度 → 全量；prompt 与模型版本化，可回滚。'],o:'一次完整的灰度发布记录'},
+  {t:'重点：Bad Case 闭环',a:['trace 归因（检索问题 vs 生成问题 vs 工具问题 vs 模型能力）→ 修复 → 补进评测集形成回归。'],o:'Bad Case 复盘模板'}
+ ]}
+]},
+{t:'阶段三 · 高阶与差异化（目标：从"会做"到"能设计"）',s:3,k:'focus',c:[
+ {t:'9. 场景系统设计（面试压轴）',k:'focus',c:[
+  {t:'必会：企业知识库问答系统',a:['解析切分 → 混合检索 → rerank → 生成引用 →拒答兜底；<span class="hl">多租户权限在检索层过滤</span>。'],o:'完整设计文档 + 架构图'},
+  {t:'重点：Text2SQL 数据分析助手',a:['Schema Linking、指标字典/SQL 样例库、只读账号 + AST 校验 + 强制 LIMIT + 超时上限。'],o:'可运行的受限查询 Demo'},
+  {t:'重点：自动化任务 Agent',a:['流程分析→ 决定 Workflow/Agent；Plan 人工确认 → 逐步执行校验 → Verify 重规划（N次上限）；不可逆操作确认与日志回滚。'],o:'带审批与回滚的任务 Agent'},
+  {t:'选学：多模态应用',a:['文档图像理解、截图问答、语音对话、图文生成；多模态检索与图表问答。'],o:'一个多模态场景小作品'},
+  {t:'选学：模型服务平台化',a:['统一网关：多供应商适配、配额、成本核算、灰度路由、内容安全审核；对外提供 API。'],o:'AI 网关设计文档'}
+ ]},
+ {t:'10. 技术视野与行业认知',k:'star',c:[
+  {t:'重点：技术栈全景与选型能力',a:['框架：LangChain / LlamaIndex / LangGraph / Spring AI / Dify / Coze / RAGFlow / FastGPT。','存储：pgvector / Milvus / Qdrant / Elasticsearch。','观测：Langfuse / Phoenix / LangSmith / Ragas / OpenTelemetry。','协议：MCP。'],o:'一张自用的技术选型对照表'},
+  {t:'重点：论文与前沿跟踪',a:['每天 20 分钟 arXiv；跟踪 RAG 检索新方法、Agent 范式、长上下文、推理模型进展；<span class="hl">能用论文视角解释工程决策</span>。'],o:'每月一篇论文分享笔记'},
+  {t:'选学：Agent 与 AI 应用的前沿方向',a:['Agentic RAG、多智能体协作、Computer Use、GUI Agent、上下文工程 Context Engineering、记忆体系演进。'],o:'一份趋势综述'}
+ ]},
+ {t:'11. 求职冲刺（最后两周集中做）',k:'must',c:[
+  {t:'必做：作品集打包',a:['2-3 个能讲清的项目：<span class="hl">一个 RAG、一个 Agent、一个工程化/评测体系</span>，每个包含架构图、指标、踩坑复盘。'],o:'GitHub 仓库 + 项目 README'},
+  {t:'必做：简历与定位',a:['把 Java 10年经验与 AI 能力做连接："Java 后端+ AI 应用工程" 双标签；每条经历用 STAR + 量化结果。'],o:'2 版针对性简历'},
+  {t:'必做：高频题背诵与模拟面试',a:['按面试思维导图逐题口述录音，回放纠错；重点准备 RAG、Agent、幻觉、微调、Java 迁移五块。'],o:'口述录音 + 复盘笔记'},
+  {t:'重点：项目深挖准备',a:['对每个项目准备：为什么这么选、不选什么、数据量与QPS、成本怎么算、故障怎么兜、被追问三层还能答什么。'],o:'项目追问自测清单'},
+  {t:'重点：反问与行业认知',a:['反问场景/瓶颈、模型策略、评测体系、团队分工、业务路线图；了解岗位是偏工程还是偏算法。'],o:'反问问题清单'}
+ ]}
+]}
+];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function badge(k){return k==='must'?'<span class="tag t-must">必学</span>':k==='star'?'<span class="tag t-star">重点</span>':'';}
+function stg(s){return s?'<span class="stg st'+s+'">阶段'+s+'</span>':'';}
+function node(n,lv){
+  let cls='';
+  if(lv===1)cls='st1c';else if(lv===2)cls='st2c';else if(lv===3&&n.s===3)cls='st3c';
+  let h='<div class="tw"><span class="tg">−</span><div class="card"><div class="q">'+stg(n.s)+badge(n.k)+esc(n.t)+'</div>';
+  if(n.a&&n.a.length)h+='<ul class="a">'+n.a.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+  if(n.o)h+='<div class="out">'+esc(n.o)+'</div>';
+  h+='</div></div>';
+  if(n.c&&n.c.length)h+='<ul>'+n.c.map(c=>node(c,lv+1)).join('')+'</ul>';
+  return '<li class="node '+cls+(n.c?'':' leaf')+'">'+h+'</li>';
+}
+const tree=document.getElementById('tree');
+tree.innerHTML=D.map(n=>node(n,1)).join('');
+tree.addEventListener('click',e=>{
+  const tg=e.target.closest('.tg');if(!tg)return;
+  const li=tg.closest('li.node');const ul=li.querySelector(':scope>ul');if(!ul)return;
+  const hide=ul.classList.toggle('hide');tg.textContent=hide?'+':'−';
+});
+document.getElementById('fold').onclick=()=>{tree.querySelectorAll('li.node').forEach(li=>{
+  if(li.classList.contains('leaf'))return;
+  const ul=li.querySelector(':scope>ul');if(ul){ul.classList.add('hide');li.querySelector(':scope>.tw>.tg').textContent='+';}});};
+document.getElementById('toggle').onclick=()=>{tree.querySelectorAll('ul').forEach(u=>u.classList.remove('hide'));
+  tree.querySelectorAll('.tg').forEach(t=>t.textContent='−');};
+let only='';
+function setFilter(f){only=only===f?'':f;
+  document.getElementById('f-must').classList.toggle('on',only==='must');
+  document.getElementById('f-star').classList.toggle('on',only==='star');apply();}
+document.getElementById('f-must').onclick=()=>setFilter('must');
+document.getElementById('f-star').onclick=()=>setFilter('star');
+document.getElementById('q').addEventListener('input',e=>{window._kw=e.target.value.trim();apply();});
+function apply(){
+  const kw=(window._kw||'').toLowerCase();let cnt=0;
+  tree.querySelectorAll('li.node').forEach(li=>{
+    const c=li.querySelector(':scope>.tw>.card');
+    const txt=c.textContent.toLowerCase();
+    const okk=!only||(only==='must'?c.textContent.includes('必学'):c.textContent.includes('重点'));
+    const okw=!kw||txt.includes(kw);
+    c.style.display=(okk&&okw)?'':'none';if(okk&&okw)cnt++;
+    const ul=li.querySelector(':scope>ul');
+    if(ul){const has=Array.from(ul.children).some(ch=>ch.querySelector(':scope>.tw>.card')?.style.display!=='none');
+      if((kw||only)&&has){ul.classList.remove('hide');li.querySelector(':scope>.tw>.tg').textContent='−';}
+      else if(kw||only)ul.classList.add('hide');}
+    li.classList.toggle('hide',!(okk&&okw));
+  });
+  document.getElementById('empty').classList.toggle('hide',cnt>0);
+}
+</script>
+</body>
+</html>
