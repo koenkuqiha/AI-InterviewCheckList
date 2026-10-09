@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Java JVM 面试题 & 学习清单 · 思维导图</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --border:#e4e7ef; --text:#1f2430; --muted:#697386;
+    --l1:#4f46e5; --l2:#0891b2; --l3:#059669; --l4:#b45309; --l5:#be123c;
+    --p3:#dc2626; --p2:#ea580c; --p1:#64748b;
+    --shadow:0 2px 8px rgba(20,24,40,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
+
+  header{height:56px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;padding:0 18px;position:relative;z-index:20}
+  h1{font-size:16px;margin:0;font-weight:700;white-space:nowrap}
+  h1 span{color:var(--muted);font-weight:400;font-size:13px;margin-left:8px}
+  .tabs{display:flex;gap:4px;background:#f0f1f6;padding:3px;border-radius:8px}
+  .tab{border:0;background:transparent;padding:7px 16px;border-radius:6px;font-size:13px;cursor:pointer;color:var(--muted);font-weight:600;font-family:inherit}
+  .tab.active{background:var(--panel);color:var(--l1);box-shadow:var(--shadow)}
+  .spacer{flex:1}
+  .btn{border:1px solid var(--border);background:var(--panel);padding:7px 13px;border-radius:7px;font-size:12.5px;cursor:pointer;color:var(--text);font-family:inherit;transition:.15s}
+  .btn:hover{background:#f0f1f6;border-color:#c8cddb}
+  .btn.on{background:var(--l1);color:#fff;border-color:var(--l1)}
+
+  .main{display:flex;height:calc(100% - 56px)}
+  #viewport{flex:1;overflow:hidden;position:relative;cursor:grab;background:
+    radial-gradient(circle at 1px 1px, #dfe3ee 1px, transparent 0) 0 0/22px 22px}
+  #viewport.drag{cursor:grabbing}
+  #canvas{position:absolute;top:0;left:0;transform-origin:0 0}
+
+  .node{cursor:pointer}
+  .node rect{transition:.15s}
+  .node:hover rect{filter:brightness(.97)}
+  .node.dim{opacity:.28}
+  .node text{user-select:none;pointer-events:none;font-weight:600}
+
+  #side{width:470px;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+  #sideHead{padding:16px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+  #sideTitle{font-size:15px;font-weight:700;margin:0 0 6px;line-height:1.45}
+  #sideMeta{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{background:#f1f2f7;color:var(--muted);font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600}
+  #sideBody{padding:16px 18px;overflow-y:auto;flex:1;font-size:13.5px;line-height:1.85;white-space:pre-wrap;word-break:break-word}
+  #sideBody::-webkit-scrollbar{width:8px}
+  #sideBody::-webkit-scrollbar-thumb{background:#d8dce8;border-radius:4px}
+  #sideEmpty{padding:40px 22px;color:var(--muted);font-size:13px;text-align:center;line-height:1.9}
+
+  .legend{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:9px;padding:10px 13px;font-size:11.5px;color:var(--muted);box-shadow:var(--shadow);line-height:1.9}
+  .legend b{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .tip{position:absolute;right:14px;bottom:14px;background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:9px;padding:9px 13px;font-size:11.5px;color:var(--muted);box-shadow:var(--shadow)}
+  #hint{position:absolute;left:50%;top:16px;transform:translateX(-50%);background:rgba(31,36,48,.9);color:#fff;padding:8px 18px;border-radius:20px;font-size:12.5px;opacity:0;transition:.4s;pointer-events:none;z-index:30}
+  #hint.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <h1>Java JVM 思维导图<span id="subTitle">面试题 · 含答案</span></h1>
+  <div class="tabs">
+    <button class="tab active" data-src="data-interview.js" data-t="面试题版">面试题版</button>
+    <button class="tab" data-src="data-learn.js" data-t="学习清单版">学习清单版</button>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn" id="btnAll">展开全部</button>
+  <button class="btn" id="btnFold">折叠到模块</button>
+  <button class="btn" id="btnP3">仅看重点</button>
+  <button class="btn" id="btnFit">适应画布</button>
+</header>
+
+<div class="main">
+  <div id="viewport">
+    <div id="canvas"></div>
+    <div class="legend">
+      <div><b style="background:var(--p3)"></b>★★★ 必考，必须完整背诵</div>
+      <div><b style="background:var(--p2)"></b>★★ 高频，需理解原理</div>
+      <div><b style="background:var(--p1)"></b>★ 延伸加分项</div>
+    </div>
+    <div class="tip">滚轮缩放 · 拖拽平移 · 点击节点查看答案 · 再次点击折叠</div>
+    <div id="hint"></div>
+  </div>
+  <div id="side">
+    <div id="sideHead">
+      <h2 id="sideTitle">JVM 思维导图</h2>
+      <div id="sideMeta"></div>
+    </div>
+    <div id="sideBody"></div>
+  </div>
+</div>
+
+<script src="data-interview.js"></script>
+<script src="data-learn.js"></script>
+<script>
+(function(){
+  "use strict";
+  const vp=document.getElementById('viewport'), cv=document.getElementById('canvas');
+  const sideTitle=document.getElementById('sideTitle'), sideMeta=document.getElementById('sideMeta'), sideBody=document.getElementById('sideBody');
+  const hint=document.getElementById('hint');
+
+  let DATA=null, mode='interview', scale=1, tx=0, ty=0;
+  const NODE_W=304, GAP_Y=16, HEAD_H=46, PAD=10, PADX=64;
+  const COLORS=['#4f46e5','#0891b2','#059669','#b45309','#be123c','#7c3aed','#0f766e'];
+  const PMAP={3:'#dc2626',2:'#ea580c',1:'#64748b'};
+  let collapsed={}, onlyP3=false;
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  /* ---------- layout ---------- */
+  function isLeaf(n){return !n.c || n.c.length===0;}
+  function heightOf(n){
+    if(isLeaf(n))return HEAD_H;
+    return n.c.reduce((s,k)=>s+heightOf(k),0)+GAP_Y*(n.c.length-1);
+  }
+  function assignY(n,y){
+    n._y=y;
+    if(!isLeaf(n)){
+      let cy=y;
+      n.c.forEach(k=>{ assignY(k,cy); cy+=heightOf(k)+GAP_Y; });
+      n._y=y+heightOf(n)/2;
+    }
+  }
+  function depthOf(n){let d=0,c=n;while(c.c&&c.c.length){c=c.c[0];d++;}return d;}
+
+  function measure(){
+    let maxD=0;
+    (function walk(n,d){maxD=Math.max(maxD,d);if(n.c)n.c.forEach(k=>walk(k,d+1));})(DATA,0);
+    let x=PAD;
+    const colX=[];
+    for(let i=0;i<=maxD;i++){colX.push(x);x+=NODE_W+PADX;}
+    (function walk(n,d){
+      n._x=colX[d]; n._d=d;
+      n._h=HEAD_H;
+      (n.c||[]).forEach(k=>walk(k,d+1));
+    })(DATA,0);
+    assignY(DATA,PAD+HEAD_H/2);
+    return {w:x, h:DATA._y+heightOf(DATA)/2+PAD};
+  }
+
+  /* ---------- render ---------- */
+  function visible(n){
+    if(onlyP3 && n.p<3)return false;
+    if(collapsed[n._id])return true;
+    if(isLeaf(n))return true;
+    return n.c.some(visible);
+  }
+
+  function render(){
+    const dim=measure();
+    cv.style.width=dim.w+'px'; cv.style.height=dim.h+'px';
+    let paths=[], labels=[], count=0;
+    (function walk(n){
+      const showKids=!collapsed[n._id]&&visible(n);
+      if(n.c){
+        n.c.forEach(k=>{
+          if(!visible(k))return;
+          const col=COLORS[Math.min(k._d,COLORS.length-1)];
+          paths.push(`<path d="M${n._x+NODE_W},${n._y} C${n._x+NODE_W+26},${n._y} ${k._x-26},${k._y} ${k._x},${k._y}" fill="none" stroke="${col}" stroke-width="1.8" opacity=".55"/>`);
+          walk(k);
+        });
+      }
+      if(!visible(n))return;
+      count++;
+      const showKidsIcon=n.c&&n.c.length>0;
+      const col=COLORS[Math.min(n._d,COLORS.length-1)];
+      const pc=PMAP[n.p]||'#64748b';
+      const badge=showKidsIcon?(collapsed[n._id]?'+'+(n.c.length):'−'+n.c.length):'';
+      const bw=badge?26:0;
+      labels.push(
+        `<g class="node" data-id="${n._id}" transform="translate(${n._x},${n._y-HEAD_H/2})">
+          <rect width="${NODE_W}" height="${HEAD_H}" rx="9" fill="#fff" stroke="${col}" stroke-width="${n._d===0?2.4:1.5}"/>
+          <rect width="4.5" height="${HEAD_H}" rx="2.2" fill="${pc}"/>
+          <text x="15" y="${n.p>=3?21:27}" font-size="13.5" fill="${n._d===0?'#4f46e5':'#1f2430'}">${esc(clip(n.t,NODE_W-30-bw-(n.p>=3?20:0)))}</text>
+          ${n.p>=3?`<circle cx="${NODE_W-14-bw}" cy="17" r="3.6" fill="${pc}"/>`:''}
+          ${badge?`<text x="${NODE_W-11}" y="${HEAD_H/2+4.5}" font-size="11.5" fill="${col}" text-anchor="end">${badge}</text>`:''}
+        </g>`);
+    })(DATA);
+    cv.innerHTML=`<svg width="${dim.w}" height="${dim.h}">${paths.join('')}${labels.join('')}</svg>`;
+    cv.querySelectorAll('.node').forEach(g=>{
+      g.addEventListener('click',ev=>{ev.stopPropagation();const id=g.getAttribute('data-id');if(isLeafById(id))showDetail(id);else{collapsed[id]=!collapsed[id];render();}});
+    });
+    cv.querySelectorAll('path').forEach(p=>p.style.pointerEvents='none');
+    return count;
+  }
+
+  /* 按视觉宽度截断：中文按 13.2px，西文按 7px 估算 */
+  function clip(s,w){
+    let used=0,out='';
+    for(const ch of String(s)){
+      const cw=(ch.charCodeAt(0)>255?13.2:7.2);
+      if(used+cw>w-2){return out+'…';}
+      used+=cw; out+=ch;
+    }
+    return out;
+  }
+  function isLeafById(id){ const n=index[id]; return n && isLeaf(n); }
+  let index={};
+  function buildIndex(n){n._id=Math.random().toString(36).slice(2);index[n._id]=n;(n.c||[]).forEach(buildIndex);}
+
+  /* ---------- side panel ---------- */
+  function showDetail(id){
+    const n=index[id];
+    sideTitle.textContent=n.t.replace(/★+/g,'').trim()||n.t;
+    sideMeta.innerHTML=`<span class="chip">${n.p>=3?'★★★ 必考':n.p===2?'★★ 高频':'★ 延伸'}</span>`+
+      (n._d>0?`<span class="chip" style="background:#eef2ff;color:#4f46e5">${'· '.repeat(0)}层级 ${n._d}</span>`:'');
+    sideBody.textContent=n.a||'（该节点为分类节点，点击其子节点查看详细内容）';
+  }
+  function showRoot(){
+    const n=DATA;
+    sideTitle.textContent=n.t;
+    const total=(function cnt(x){return 1+(x.c||[]).reduce((s,k)=>s+cnt(k),0);})(n)-1;
+    sideMeta.innerHTML=`<span class="chip" style="background:#4f46e5;color:#fff">共 ${total} 个知识点</span>`;
+    sideBody.textContent=mode==='interview'
+      ? '【使用说明】\n这是面试题思维导图。点击任意节点查看答案，被标记为 ★★★（右上角红点）的知识点是必考重点，必须能完整背诵。\n\n【优先级图例】\n★★★ 必考，必须完整背诵（约占实际面试 70% 的提问来源）\n★★  高频，需要理解原理并能举例\n★   延伸加分项，答不出不影响大局\n\n【六模块结构】\n一、内存管理｜二、类加载机制｜三、垃圾回收 GC｜四、并发与内存模型｜五、排查工具与实战｜六、LeetCode 高频关联｜七、加分延伸\n\n【重要前提】LeetCode 主站没有 JVM 专项题目，但其 Concurrency（并发）标签下的 1114 / 1115 / 1116 / 1117 / 1188 / 1195 等题直接考 JUC 与 JMM，是国内面试的常见形式，已单独整理在第六模块。'
+      : '【使用说明】\n这是学习清单思维导图，按 0-8 共 9 个阶段编排，总时长约 13-15 天（每天 3-4 小时有效投入）。\n\n【每个阶段都包含】\n· 学习内容（必须掌握的知识点）\n· 动手任务（验证理解，别只背）\n· 验收标准（能做什么才算过关）\n\n【核心原则】\nJVM 岗位面试的胜负手不在「背了多少」，而在「能不能用工具定位问题 + 能不能把知识落到生产实践上」。阶段 5 和阶段 7 才是最拉开差距的部分。\n\n【建议节奏】\n阶段 1-2 打地基 → 阶段 3 GC（占比 30%-40%，最高权重）→ 阶段 4 并发（必考）→ 阶段 5 工具实战 → 阶段 6 手写 → 阶段 7 项目包装 → 阶段 8 冲刺';
+  }
+
+  /* ---------- interactions ---------- */
+  let drag=false,sx=0,sy=0,ox=0,oy=0;
+  vp.addEventListener('mousedown',e=>{drag=true;sx=e.clientX;sy=e.clientY;ox=tx;oy=ty;vp.classList.add('drag');});
+  window.addEventListener('mouseup',()=>{drag=false;vp.classList.remove('drag');});
+  window.addEventListener('mousemove',e=>{if(!drag)return;tx=ox+(e.clientX-sx);ty=oy+(e.clientY-sy);apply();});
+  vp.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const r=vp.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+    const f=e.deltaY<0?1.12:1/1.12,ns=Math.min(2.4,Math.max(.28,scale*f));
+    tx=mx-(mx-tx)*(ns/scale);ty=my-(my-ty)*(ns/scale);scale=ns;apply();
+  },{passive:false});
+  function apply(){cv.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+  function fit(){
+    const b=cv.getBoundingClientRect();
+    const sw=b.width/scale, sh=b.height/scale;
+    /* 不低于可读阈值：宁可超出视口由用户拖拽，也不要缩到看不清 */
+    const raw=Math.min(vp.clientWidth/(sw+40),vp.clientHeight/(sh+40));
+    scale=Math.max(Math.min(raw,1.05),0.42);
+    tx=(vp.clientWidth-sw*scale)/2-10; ty=(vp.clientHeight-sh*scale)/2-10; apply();
+  }
+  function fitWidth(){
+    const b=cv.getBoundingClientRect();
+    const sw=b.width/scale;
+    scale=Math.min(vp.clientWidth/(sw+40),1.05);
+    tx=20; ty=24; apply();
+  }
+
+  function toast(m){hint.textContent=m;hint.classList.add('show');setTimeout(()=>hint.classList.remove('show'),2200);}
+
+  document.getElementById('btnAll').onclick=()=>{
+    const all=[]; (function w(n){all.push(n._id);(n.c||[]).forEach(w);})(DATA);
+    all.forEach(i=>collapsed[i]=false); render(); fitWidth(); toast('已展开全部知识点');
+  };
+  document.getElementById('btnFold').onclick=()=>{
+    const all=[]; (function w(n,d){if(d>0)all.push(n._id);(n.c||[]).forEach(k=>w(k,d+1));})(DATA,0);
+    all.forEach(i=>collapsed[i]=true); render(); fit(); toast('已折叠到模块层级');
+  };
+  document.getElementById('btnP3').onclick=function(){
+    onlyP3=!onlyP3; this.classList.toggle('on',onlyP3);
+    render(); fit(); toast(onlyP3?'仅显示 ★★★ 必考重点':'显示全部知识点');
+  };
+  document.getElementById('btnFit').onclick=()=>{fit();toast('已适应画布');};
+
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.onclick=()=>{
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      load(btn.dataset.src,btn.dataset.t);
+    };
+  });
+
+  function load(src,label){
+    mode=label.indexOf('学习')>=0?'learn':'interview';
+    DATA=mode==='interview'?window.JVM_INTERVIEW:window.JVM_LEARN;
+    /*归一化：根节点用 children 且标题字段为 root，统一为 c / t */
+    (function norm(n){
+      if(n.children&&!n.c){n.c=n.children;delete n.children;}
+      if(!n.t&&n.root)n.t=n.root;
+      (n.c||[]).forEach(norm);
+    })(DATA);
+    document.getElementById('subTitle').textContent=label;
+    collapsed={};index={};onlyP3=false;
+    document.getElementById('btnP3').classList.remove('on');
+    buildIndex(DATA);
+    (function w(n,d){if(d>0)collapsed[n._id]=true;(n.c||[]).forEach(k=>w(k,d+1));})(DATA,0);
+    render(); fit(); showRoot();
+  }
+
+  load('data-interview.js','面试题版 · 含答案');
+})();
+</script>
+</body>
+</html>
