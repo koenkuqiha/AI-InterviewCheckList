@@ -7,7 +7,9 @@
 <img width="1919" height="925" alt="image" src="https://github.com/user-attachments/assets/c3c69360-8301-4a67-8814-608eacea8ce0" />
 <img width="1898" height="911" alt="image" src="https://github.com/user-attachments/assets/e7863811-1063-4015-9f30-c68824ade0b1" />
 
-![Uploading image.png…]()
+
+<img width="1910" height="925" alt="image" src="https://github.com/user-attachments/assets/b9fdcda3-e611-4fb6-ab9a-b3ba8004ba11" />
+
 
 
 **AI开发学习和面试清单清单展示
