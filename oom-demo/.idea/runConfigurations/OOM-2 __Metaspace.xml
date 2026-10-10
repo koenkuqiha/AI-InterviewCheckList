@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OOM-2 元空间溢出(Metaspace)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Demo2_Metaspace" />
+    <module name="oom-demo" />
+    <option name="VM_PARAMETERS" value="-XX:MaxMetaspaceSize=32m" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
