@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OOM-1 堆溢出(Java heap space)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="HeapOOMDemo" />
+    <module name="oom-demo" />
+    <option name="VM_PARAMETERS" value="-Xmx64m" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
